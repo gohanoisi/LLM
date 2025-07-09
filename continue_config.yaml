@@ -1,0 +1,107 @@
+# vscode拡張機能の｢continue｣の設定例
+
+
+name: MyLocalAI
+version: 0.0.1
+schema: v1
+
+allowAnonymousTelemetry: false  # 匿名テレメトリを許可しない
+offline: true                   # オフラインモードで動作
+
+models:
+  # チャット用モデル（DeepSeek R1）
+  - name: DeepSeek R1
+    provider: ollama
+    model: deepseek-r1:8b
+    roles:
+      - chat
+      - edit
+      - apply
+    defaultCompletionOptions:
+      temperature: 0.7
+      maxTokens: 2000
+    systemMessage: |
+      あなたは、プロのソフトウェアエンジニアをサポートするAIアシスタントです。
+      以下のルールを厳密に守って、応答を生成してください。
+
+      # 最重要ルール
+      - **応答はすべて日本語でお願いします。**
+      - ユーザーから与えられたコンテキスト（特に現在開いているファイルや選択中のコード）を最優先に参照し、それを踏まえた上で回答してください。
+      - コードは、クリーンで読みやすく、保守性の高いものを生成してください。
+      - 複雑なロジックには、簡潔で分かりやすいコメントを日本語で追加してください。
+
+  # チャット用モデル（Llama3.1）
+  - name: Llama3.1
+    provider: ollama
+    model: llama3.1:8b
+    roles:
+      - chat
+      - edit
+      - apply
+    defaultCompletionOptions:
+      temperature: 0.7
+      maxTokens: 2000
+    systemMessage: |
+      あなたは、プロのソフトウェアエンジニアをサポートするAIアシスタントです。
+      以下のルールを厳密に守って、応答を生成してください。
+
+      # 最重要ルール
+      - **応答はすべて日本語でお願いします。**
+      - ユーザーから与えられたコンテキスト（特に現在開いているファイルや選択中のコード）を最優先に参照し、それを踏まえた上で回答してください。
+      - コードは、クリーンで読みやすく、保守性の高いものを生成してください。
+      - 複雑なロジックには、簡潔で分かりやすいコメントを日本語で追加してください。
+
+  # チャット用モデル（Qwen2.5-Coder）
+  - name: Qwen2.5-Coder
+    provider: ollama
+    model: qwen2.5-coder:7b
+    roles:
+      - chat
+      - edit
+      - apply
+    defaultCompletionOptions:
+      temperature: 0.7
+      maxTokens: 2000
+    systemMessage: |
+      あなたは、プロのソフトウェアエンジニアをサポートするAIアシスタントです。
+      以下のルールを厳密に守って、応答を生成してください。
+
+      # 最重要ルール
+      - **応答はすべて日本語でお願いします。**
+      - ユーザーから与えられたコンテキスト（特に現在開いているファイルや選択中のコード）を最優先に参照し、それを踏まえた上で回答してください。
+      - コードは、クリーンで読みやすく、保守性の高いものを生成してください。
+      - 複雑なロジックには、簡潔で分かりやすいコメントを日本語で追加してください。
+
+  # 自動補完用モデル（Qwen2.5-Coder）
+  - name: Qwen2.5-Coder
+    provider: ollama
+    model: qwen2.5-coder:7b
+    roles:
+      - autocomplete
+    defaultCompletionOptions:
+      temperature: 0.3
+      maxTokens: 500
+      stop:
+        - "\n\n"
+        - "}"
+        - ";"
+
+  # エンベディング用モデル（必要に応じて）
+  - name: Nomic Embed
+    provider: ollama
+    model: nomic-embed-text
+    roles:
+      - embed
+
+context:
+  - provider: file
+  - provider: code
+  - provider: codebase
+  - provider: diff
+  - provider: terminal
+  - provider: open
+
+rules:
+  - Write clean, readable code
+  - Use TypeScript when possible
+  - Add comments for complex logic
